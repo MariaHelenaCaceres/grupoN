@@ -1,2 +1,2 @@
-# grupoN
+# TiendaCamisetas
 #Creacion del proyecto
