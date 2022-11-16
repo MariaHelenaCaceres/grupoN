@@ -19,7 +19,7 @@ public class Usuarios {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     
     @Column(name = "id")//con esto seleccionamos la columna de la tabla
-    private Integer id;
+    private Integer id;  //son las variables para conectar el codigo caon las tablas
     @Column (name = "nombre", length = 50)
     private String nombre;
     @Column (name ="contrseña", length = 50)
