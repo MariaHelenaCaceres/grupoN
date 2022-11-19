@@ -14,7 +14,13 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,13 +41,16 @@ public class ProductosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Productos productos) {
+    @PostMapping() //provar el guardado
+    public String create(@RequestBody Productos productos) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(productos);
             em.getTransaction().commit();
+            return"ok";
+
         } finally {
             if (em != null) {
                 em.close();
@@ -49,13 +58,16 @@ public class ProductosJpaController implements Serializable {
         }
     }
 
-    public void edit(Productos productos) throws NonexistentEntityException, Exception {
+    //editar producto
+@PutMapping
+    public String edit(@RequestBody Productos productos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             productos = em.merge(productos);
             em.getTransaction().commit();
+            return "ok"; //si no se retorna no lo toma
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -71,8 +83,8 @@ public class ProductosJpaController implements Serializable {
             }
         }
     }
-
-    public void destroy(Integer id) throws NonexistentEntityException {
+    @DeleteMapping("/id")  //eliminar probar
+    public String destroy(@PathVariable ("id") Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -86,6 +98,7 @@ public class ProductosJpaController implements Serializable {
             }
             em.remove(productos);
             em.getTransaction().commit();
+            return "ok";
         } finally {
             if (em != null) {
                 em.close();
@@ -93,7 +106,7 @@ public class ProductosJpaController implements Serializable {
         }
     }
     
-    @GetMapping()
+    @GetMapping() //consultar la lista
     public List<Productos> findProductosEntities() {
         return findProductosEntities(true, -1, -1);
     }
