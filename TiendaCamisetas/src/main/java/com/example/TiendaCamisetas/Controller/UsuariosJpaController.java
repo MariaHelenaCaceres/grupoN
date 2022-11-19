@@ -15,6 +15,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,29 @@ public class UsuariosJpaController implements Serializable {
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    //Creacion del login 
+    @PostMapping("/login")
+    public String login(@RequestBody Usuarios usuarios){
+        //recibiendo
+        System.out.println("" + usuarios.getNombre()); //aqui deberia pedir el correo
+        System.out.println("" + usuarios.getContrseña ());
+        EntityManager em = getEntityManager();
+        try {
+            String query = "SELECT * FROM usuarios WHERE nombre = '"+ usuarios.getNombre() +"' AND contrasena= '"+ usuarios.getContrseña() +"'";
+            System.out.println("" + query);
+            Query q = em.createNativeQuery(query);
+            List <Usuarios> lu = q.getResultList();
+            if(lu.isEmpty()){
+            return "no";
+            }else{
+                return"ok";
+            }
+            
+        } catch (Exception ex) {
+            return ""+ex;
+           
+        }
     }
 
     public void create(Usuarios usuarios) {
