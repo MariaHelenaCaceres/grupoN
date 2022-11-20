@@ -83,7 +83,7 @@ public class ProductosJpaController implements Serializable {
             }
         }
     }
-    @DeleteMapping("/id")  //eliminar probar
+    @DeleteMapping("/{id}") //eliminar probar 
     public String destroy(@PathVariable ("id") Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {

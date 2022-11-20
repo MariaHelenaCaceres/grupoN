@@ -40,11 +40,11 @@ public class UsuariosJpaController implements Serializable {
     @PostMapping("/login")
     public String login(@RequestBody Usuarios usuarios){
         //recibiendo
-        System.out.println("" + usuarios.getNombre()); //aqui deberia pedir el correo
+        System.out.println("" + usuarios.getCorreo()); //aqui deberia pedir el correo
         System.out.println("" + usuarios.getContrseña ());
         EntityManager em = getEntityManager();
         try {
-            String query = "SELECT * FROM usuarios WHERE nombre = '"+ usuarios.getNombre() +"' AND contrasena= '"+ usuarios.getContrseña() +"'";
+            String query = "SELECT * FROM usuarios WHERE correo = '"+ usuarios.getCorreo() +"' AND contrasena= '"+ usuarios.getContrseña() +"'";
             System.out.println("" + query);
             Query q = em.createNativeQuery(query);
             List <Usuarios> lu = q.getResultList();
@@ -59,6 +59,7 @@ public class UsuariosJpaController implements Serializable {
            
         }
     }
+
 
     public void create(Usuarios usuarios) {
         EntityManager em = null;
@@ -117,6 +118,8 @@ public class UsuariosJpaController implements Serializable {
             }
         }
     }
+    
+    
     @GetMapping()
     public List<Usuarios> findUsuariosEntities() {
         return findUsuariosEntities(true, -1, -1);

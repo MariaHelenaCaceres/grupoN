@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
     @NamedQuery(name = "Usuarios.findById", query = "SELECT u FROM Usuarios u WHERE u.id = :id"),
     @NamedQuery(name = "Usuarios.findByNombre", query = "SELECT u FROM Usuarios u WHERE u.nombre = :nombre"),
-    @NamedQuery(name = "Usuarios.findByContrse\u00f1a", query = "SELECT u FROM Usuarios u WHERE u.contrse\u00f1a = :contrse\u00f1a")})
+    @NamedQuery(name = "Usuarios.findByContrse\u00f1a", query = "SELECT u FROM Usuarios u WHERE u.contrse\u00f1a = :contrse\u00f1a"),
+    @NamedQuery(name = "Usuarios.findByCorreo", query = "SELECT u FROM Usuarios u WHERE u.correo = :correo")})
 public class Usuarios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +41,8 @@ public class Usuarios implements Serializable {
     private String nombre;
     @Column(name = "contrse\u00f1a")
     private String contrseña;
+    @Column(name = "correo")
+    private String correo;
 
     public Usuarios() {
     }
@@ -70,6 +73,14 @@ public class Usuarios implements Serializable {
 
     public void setContrseña(String contrseña) {
         this.contrseña = contrseña;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     @Override
