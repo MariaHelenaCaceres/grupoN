@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author KIRITODANI
  */
+@CrossOrigin(origins ="/*")
 @RestController
 @RequestMapping("/producto")
 public class ProductosJpaController implements Serializable {
@@ -105,7 +107,7 @@ public class ProductosJpaController implements Serializable {
             }
         }
     }
-    
+    @CrossOrigin(origins = "*")
     @GetMapping() //consultar la lista
     public List<Productos> findProductosEntities() {
         return findProductosEntities(true, -1, -1);
