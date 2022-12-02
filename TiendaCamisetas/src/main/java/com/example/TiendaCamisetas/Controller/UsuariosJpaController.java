@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +45,7 @@ public class UsuariosJpaController implements Serializable {
         System.out.println("" + usuarios.getContrseña ());
         EntityManager em = getEntityManager();
         try {
-            String query = "SELECT * FROM usuarios WHERE correo = '"+ usuarios.getCorreo() +"' AND contrasena= '"+ usuarios.getContrseña() +"'";
+            String query = "SELECT * FROM usuarios WHERE correo = '"+ usuarios.getCorreo() +"' AND contraseña= '"+ usuarios.getContrseña() +"'";
             System.out.println("" + query);
             Query q = em.createNativeQuery(query);
             List <Usuarios> lu = q.getResultList();
@@ -60,7 +61,7 @@ public class UsuariosJpaController implements Serializable {
         }
     }
 
-
+    
     public void create(Usuarios usuarios) {
         EntityManager em = null;
         try {
@@ -74,14 +75,15 @@ public class UsuariosJpaController implements Serializable {
             }
         }
     }
-
-    public void edit(Usuarios usuarios) throws NonexistentEntityException, Exception {
+    @PutMapping
+    public String edit(@RequestBody Usuarios usuarios) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             usuarios = em.merge(usuarios);
             em.getTransaction().commit();
+            return "ok";
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
