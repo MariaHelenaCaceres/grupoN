@@ -7,13 +7,18 @@ package com.example.TiendaCamisetas.Controller;
 import com.example.TiendaCamisetas.Controller.exceptions.NonexistentEntityException;
 import com.example.TiendaCamisetas.Model.Usuarios;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,10 +43,12 @@ public class UsuariosJpaController implements Serializable {
         return emf.createEntityManager();
     }
     //Creacion del login 
+    @CrossOrigin("*")
     @PostMapping("/login")
-    public String login(@RequestBody Usuarios usuarios){
+    public Map <String,String> login (@RequestBody Usuarios usuarios){
+        HashMap <String , String> map = new HashMap<>();
         //recibiendo
-        System.out.println("" + usuarios.getCorreo()); //aqui deberia pedir el correo
+        System.out.println("" + usuarios.getCorreo());
         System.out.println("" + usuarios.getContrseña ());
         EntityManager em = getEntityManager();
         try {
@@ -50,15 +57,16 @@ public class UsuariosJpaController implements Serializable {
             Query q = em.createNativeQuery(query);
             List <Usuarios> lu = q.getResultList();
             if(lu.isEmpty()){
-            return "no";
+            map.put("msj","no");
             }else{
-                return"ok";
+                map.put("msj","ok");
             }
             
         } catch (Exception ex) {
-            return ""+ex;
+            map.put("msj","ok");
            
         }
+        return map;
     }
 
     
