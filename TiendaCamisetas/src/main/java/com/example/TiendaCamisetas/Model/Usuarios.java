@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,12 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "usuarios")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findById", query = "SELECT u FROM Usuarios u WHERE u.id = :id"),
-    @NamedQuery(name = "Usuarios.findByNombre", query = "SELECT u FROM Usuarios u WHERE u.nombre = :nombre"),
-    @NamedQuery(name = "Usuarios.findByContrse\u00f1a", query = "SELECT u FROM Usuarios u WHERE u.contrse\u00f1a = :contrse\u00f1a"),
-    @NamedQuery(name = "Usuarios.findByCorreo", query = "SELECT u FROM Usuarios u WHERE u.correo = :correo")})
 public class Usuarios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,8 +31,8 @@ public class Usuarios implements Serializable {
     private Integer id;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "contrse\u00f1a")
-    private String contrseña;
+    @Column(name = "contrasena")
+    private String contrasena;
     @Column(name = "correo")
     private String correo;
 
@@ -67,12 +59,12 @@ public class Usuarios implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getContrseña() {
-        return contrseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContrseña(String contrseña) {
-        this.contrseña = contrseña;
+    public void setcontrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getCorreo() {
