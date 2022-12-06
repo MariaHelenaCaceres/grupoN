@@ -7,6 +7,7 @@ package com.example.TiendaCamisetas.Controller;
 import com.example.TiendaCamisetas.Controller.exceptions.NonexistentEntityException;
 import com.example.TiendaCamisetas.Model.Productos;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -43,21 +44,25 @@ public class ProductosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
+    @CrossOrigin("*")
     @PostMapping() //provar el guardado
-    public String create(@RequestBody Productos productos) {
+    public HashMap<String,String> create(@RequestBody Productos productos) {
+        System.out.println("" + productos.getNombre());
+        HashMap<String, String> map = new HashMap<>();
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(productos);
             em.getTransaction().commit();
-            return"ok";
+            map.put("msj","ok");
 
         } finally {
             if (em != null) {
                 em.close();
             }
         }
+        return map;
     }
 
     //editar producto
@@ -85,8 +90,10 @@ public class ProductosJpaController implements Serializable {
             }
         }
     }
+    @CrossOrigin(origins ="*")
     @DeleteMapping("/{id}") //eliminar probar 
-    public String destroy(@PathVariable ("id") Integer id) throws NonexistentEntityException {
+    public HashMap <String, String> destroy(@PathVariable ("id") Integer id) throws NonexistentEntityException {
+        HashMap <String, String> map = new HashMap<>();
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -100,12 +107,13 @@ public class ProductosJpaController implements Serializable {
             }
             em.remove(productos);
             em.getTransaction().commit();
-            return "ok";
+            map.put("msj","ok");
         } finally {
             if (em != null) {
                 em.close();
             }
         }
+        return map;
     }
     @CrossOrigin(origins = "*")
     @GetMapping() //consultar la lista
@@ -132,8 +140,9 @@ public class ProductosJpaController implements Serializable {
             em.close();
         }
     }
-
-    public Productos findProductos(Integer id) {
+    @CrossOrigin(origins = "*")
+    @GetMapping("/{id}")
+    public Productos findProductos(@PathVariable("id") Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Productos.class, id);

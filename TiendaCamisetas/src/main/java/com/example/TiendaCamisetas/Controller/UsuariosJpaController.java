@@ -7,10 +7,7 @@ package com.example.TiendaCamisetas.Controller;
 import com.example.TiendaCamisetas.Controller.exceptions.NonexistentEntityException;
 import com.example.TiendaCamisetas.Model.Usuarios;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -45,31 +42,29 @@ public class UsuariosJpaController implements Serializable {
     //Creacion del login 
     @CrossOrigin("*")
     @PostMapping("/login")
-    public Map <String,String> login (@RequestBody Usuarios usuarios){
-        HashMap <String , String> map = new HashMap<>();
+    public String login(@RequestBody Usuarios usuarios){
         //recibiendo
         System.out.println("" + usuarios.getCorreo());
-        System.out.println("" + usuarios.getContrseña ());
+        System.out.println("" + usuarios.getContrasena ());
         EntityManager em = getEntityManager();
         try {
-            String query = "SELECT * FROM usuarios WHERE correo = '"+ usuarios.getCorreo() +"' AND contraseña= '"+ usuarios.getContrseña() +"'";
+            String query = "SELECT * FROM usuarios WHERE correo = '"+ usuarios.getCorreo() +"' AND contrasena= '"+ usuarios.getContrasena() +"'";
             System.out.println("" + query);
             Query q = em.createNativeQuery(query);
             List <Usuarios> lu = q.getResultList();
             if(lu.isEmpty()){
-            map.put("msj","no");
+            return "ok";
             }else{
-                map.put("msj","ok");
+                return"no";
             }
             
         } catch (Exception ex) {
-            map.put("msj","ok");
+            return "error";
            
         }
-        return map;
     }
 
-    
+    @PostMapping
     public void create(Usuarios usuarios) {
         EntityManager em = null;
         try {

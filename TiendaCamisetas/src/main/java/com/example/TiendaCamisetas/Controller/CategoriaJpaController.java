@@ -15,6 +15,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author KIRITODANI
  */
+@CrossOrigin(origins="/*")
 @RestController
 @RequestMapping("/categoria")
 public class CategoriaJpaController implements Serializable {
@@ -98,6 +101,7 @@ public class CategoriaJpaController implements Serializable {
             }
         }
     }
+    @CrossOrigin("*")
     @GetMapping()
     public List<Categoria> findCategoriaEntities() {
         return findCategoriaEntities(true, -1, -1);
@@ -122,7 +126,7 @@ public class CategoriaJpaController implements Serializable {
             em.close();
         }
     }
-
+ 
     public Categoria findCategoria(Integer id) {
         EntityManager em = getEntityManager();
         try {
