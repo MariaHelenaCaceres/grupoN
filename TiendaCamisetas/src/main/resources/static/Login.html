@@ -19,14 +19,14 @@
                         <label for="exampleInputEmail1">
                             Email address
                         </label>
-                        <input type="email" name="correo" class="form-control" id="exampleInputEmail1" />
+                        <input type="email" name="correo" value="" class="form-control" id="exampleInputEmail1" />
                     </div>
                     <div class="form-group">
                          
                         <label for="exampleInputPassword1">
                             Password
                         </label>
-                        <input type="password" name="contraseña" class="form-control" id="exampleInputPassword1" />
+                        <input type="password" name="contrasena" value="" class="form-control" id="exampleInputPassword1" />
                     </div>
                     
                     <button type="submit" class="btn btn-primary" onclick="login()">
@@ -42,28 +42,34 @@
     <script>
         function login(){
             console.log("logeando")
-            const correo = document.frm.correo.value
-            const contraseña = document.frm.contraseña.value
-            console.log(correo + "," + contraseña)
-            const usuario = {
-                "nombre" : "",
-                "correo" : correo,
-                "contraseña" :contraseña
+            let correo = document.frm.correo.value
+            let contrasena = document.frm.contrasena.value
+            console.log(correo + "," + contrasena)
+            let usuario = {
+                'nombre' : "",
+                'correo' : correo,
+                'contrasena' :contrasena
             }
+            console.log(usuario)
             Options = {
                 method : "POST",
-                body : usuario
+                body : JSON.stringify(usuario),
+                headers:{
+                    "Content-Type": "application/json"
+                }
             } 
-            fetch ("http://localhost:8080/usuarios/login",options)
-            .then (response => {
-                if (response == "ok"){
+            url = 'http://localhost:8080/usuarios/login/'
+            fetch (url, options)
+            .then (response => { console.log(response)
+                if (response.ok){
                     alert("Bienvenido")
                 }else{
                     alert("datos de usuario incorrecto")
                 }
                 
-                
+                 
             })
+            .catch(error => console.log("error" + error))
 
         }
     </script>
